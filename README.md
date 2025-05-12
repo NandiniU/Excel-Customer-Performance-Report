@@ -90,7 +90,7 @@ These parsed tables are loaded and related in Power Pivot to form the data model
 
 ### 🤝 Contributions
 
-Internal AtliQ team members can:
+Open for contributions:
 
 1. Fork this repo
 2. Add new measures or visualizations
