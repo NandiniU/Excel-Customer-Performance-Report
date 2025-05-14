@@ -80,6 +80,7 @@ These parsed tables are loaded and related in Power Pivot to form the data model
 ```
 ├── Customer_Performance_Report.xlsx   # Main report file
 ├── india_sales.pdf                    # PDF export of the report
+├── Insights.pptx                      # Key insights of the report
 ├── data/                              # Source tables in CSV format
 │   ├── dim_customer.csv
 │   ├── dim_market.csv
