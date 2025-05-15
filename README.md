@@ -160,20 +160,28 @@ These parsed tables are loaded and related in Power Pivot to form the data model
    * Set filters: Region, Market, Division.
    * Set Rows: Customer.
 6. **Create FY measures**
+    * Open Power Query, load the fact table, and add the FY column from `dim_date` using the formula:
 
-   * Use `RELATED(dim_date[FY Year])` to bring FY into the fact table for filtering in measures.
-   * Define measures for each year, e.g.:
+      ```powerquery
+      =RELATED(dim_date[FY])
+      ```
+   * Click **Close & Load** to persist the new FY column in the model.
+   * Return to the PivotTable sheet and define a measure for 2019:
 
-     ```DAX
-     NetSales_2019 := CALCULATE([Net Sales], dim_date[FY Year] = "2019")
-     ```
-   * Format measures as currency (2 decimals, US \$).
+      ```DAX
+      NetSales_2019 := CALCULATE([Net Sales].dim_date[FY] = "2019")
+      ```
+
+      * Format as US \$ currency with two decimals.
+   * Repeat steps 3 for `NetSales_2020` and `NetSales_2021`, adjusting the FY filter accordingly.
+
+   
 7. **Calculate % change**
 
    * Define measure for 2021 vs 2020:
 
      ```DAX
-     PctChange_21vs20 := DIVIDE([NetSales_2021], [NetSales_2020], 0)
+     21vs20 := DIVIDE([NetSales_2021], [NetSales_2020], 0)
      ```
    * Format as percentage (1 decimal).
 8. **Convert to millions**
