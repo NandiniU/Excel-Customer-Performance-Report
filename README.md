@@ -1,12 +1,16 @@
 ## Customer Performance Report
 
-- **Repository:** /Excel-Customer-Performance-Report
-- **Report Name:** Customer Performance Report
-- **Author:** *Nandini Upadhyay*
-- **Date:** 12 May 2025
+This **Customer Performance Report** captures key insights for AtliQ Technologies’ B2B hardware business. AtliQ sells hardware products exclusively through distributor partners—such as Croma, Amazon Business, Flipkart, and more—and relies on this report to:
+
+* Track each distributor’s sales performance over time
+* Highlight growth opportunities and identify at-risk partners
+* Compare year-over-year net-sales trends across regions and product divisions
+* Enable data-driven decision making for pricing, inventory, and channel strategy
+
+By distilling complex sales data into clear, interactive views, this report empowers AtliQ’s leadership team to optimize distributor relationships and drive sustainable revenue growth.
 
 ---
-
+## 📷 Screenshot
 ![SS](https://github.com/user-attachments/assets/a0e626cb-5077-4570-9916-e9d0d83161ee)
 
 
@@ -81,13 +85,80 @@ These parsed tables are loaded and related in Power Pivot to form the data model
 ├── Customer_Performance_Report.xlsx   # Main report file
 ├── india_sales.pdf                    # PDF export of the report
 ├── Insights.pptx                      # Key insights of the report
-├── data/                              # Source tables in CSV format
+├── data/                              # Source tables in CSV format in a zip file
 │   ├── dim_customer.csv
 │   ├── dim_market.csv
 │   ├── dim_product.csv
 │   └── fact_sales_monthly.csv
 └── README.md                          # This file
 ```
+
+---
+### ⚙️ Workflow Steps
+
+**Before creating the report:** Perform ETL on the source CSVs (`dim_customer.csv`, `dim_market.csv`, `dim_product.csv`, `fact_sales_monthly.csv`): extract data, remove duplicates/wrong/empty values, apply transformations, and load into the data model (create connections only).
+
+
+1. **Collect transformed data**
+
+   * In Power Pivot, click **Manage**.
+   * Import fields: Net Sales, Year, Division, Country, Region from the parsed tables (derive missing fields as needed).
+2. **Prepare fields**
+
+   * Net Sales exists in the fact table.
+   * Extract Year from the date column using a formula.
+   * Pull Division, Country, and Region from `dim_market`.
+3. **Connect data model**
+
+   * In Power Pivot’s Diagram View, position the fact table centrally (star schema).
+   * Create relationships:
+
+     * fact\_sales\_monthly\[customer\_code] → dim\_customer\[customer\_code]
+     * fact\_sales\_monthly\[product\_code] → dim\_product\[product\_code]
+     * dim\_customer\[market] → dim\_market\[market]
+4. **Build `dim_date` table**
+
+   * In Power Query, create a new blank query with:
+
+     ```powerquery
+     ={Number.From(#date(2018,1,1))..Number.From(#date(2018,12,31))}
+     ```
+   * Convert the list to a table, change the column type to Date, and rename to `Date`.
+   * Add custom column `FY Month`: `Date.AddMonths([Date], 4)` (AtliQ’s FY is Sep–Aug).
+   * Add custom column `FY Year`: `Date.Year([FY Month])`.
+5. **Insert PivotTable**
+
+   * From the data model, insert a PivotTable.
+   * Set filters: Region, Market, Division.
+   * Set Rows: Customer.
+6. **Create FY measures**
+
+   * Use `RELATED(dim_date[FY Year])` to bring FY into the fact table for filtering in measures.
+   * Define measures for each year, e.g.:
+
+     ```DAX
+     NetSales_2019 := CALCULATE([Net Sales], dim_date[FY Year] = "2019")
+     ```
+   * Format measures as currency (2 decimals, US \$).
+7. **Calculate % change**
+
+   * Define measure for 2021 vs 2020:
+
+     ```DAX
+     PctChange_21vs20 := DIVIDE([NetSales_2021], [NetSales_2020], 0)
+     ```
+   * Format as percentage (1 decimal).
+8. **Convert to millions**
+
+   * In Value Field Settings for each year measure, choose Number Format → Custom → `0.0,,"M"`.
+9. **Beautify report**
+
+   * Apply consistent fonts, borders, conditional formatting (highlights, data bars) to emphasize insights.
+10. **Add trend chart**
+
+    * Click any cell within the PivotTable and insert a Line Chart (Insert → Charts → Line) to represent trend analysis over time.
+
+> **Note:** Row and column names may differ; adjust to align with your mock-up.
 
 ---
 
@@ -99,4 +170,10 @@ Open for contributions:
 2. Add new measures or visualizations
 3. Submit a pull request with your updates—ensure all DAX formulas are annotated in the “Data Model” sheet.
 
+---
+### Report by:
 
+- **Author:** *Nandini Upadhyay*
+- **Date:** *Apr-May 2025*
+
+---
