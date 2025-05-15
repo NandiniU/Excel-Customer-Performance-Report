@@ -32,7 +32,7 @@ These parsed tables are loaded and related in Power Pivot to form the data model
 
 ### 🔧 Excel Tools & Techniques Used
 
-* **ETL with Power Pivot & Power Query**
+* **ETL with Power Query**
 
   * Extract data from `dim_customer.csv`, `dim_market.csv`, `dim_product.csv`, `fact_sales_monthly.csv`
   * Cleanse data: remove duplicates, empty or invalid values
