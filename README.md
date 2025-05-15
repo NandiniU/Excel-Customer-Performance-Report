@@ -29,84 +29,6 @@ These parsed tables are loaded and related in Power Pivot to form the data model
 
 ---
 
-
-### 🔧 Excel Tools & Techniques Used
-
-* **ETL with Power Query**
-
-  * Extract data from `dim_customer.csv`, `dim_market.csv`, `dim_product.csv`, `fact_sales_monthly.csv`
-  * Cleanse data: remove duplicates, empty or invalid values
-  * Transform fields and load parsed tables into the data model (create connections only)
-
-* **Data Collection in Power Pivot**
-
-  * Open Power Pivot → Manage, and import the required fields: Net Sales, Year, Division, Country, Region
-  * Derive missing fields (e.g., Year from date) as needed
-
-* **Field Preparation with Formulas**
-
-  * Year: extract from date column using DAX or Power Query
-  * Division, Country, Region: sourced from `dim_market`
-
-* **Data Model Connection (Star Schema)**
-
-  * In Diagram View, place `fact_sales_monthly` centrally and create relationships:
-
-    * fact\[customer\_code] → dim\_customer\[customer\_code]
-    * fact\[product\_code] → dim\_product\[product\_code]
-    * dim\_customer\[market] → dim\_market\[market]
-
-* **Date Table Creation (dim\_date)**
-
-  * In Power Query, generate date list:
-
-    ```powerquery
-    ={Number.From(#date(2018,1,1))..Number.From(#date(2018,12,31))}
-    ```
-  * Convert to table, set type to Date, then add:
-
-    * `FY Month` = Date.AddMonths(\[Date], 4)
-    * `FY Year` = Date.Year(\[FY Month])
-
-* **PivotTable Setup**
-
-  * Insert a PivotTable from the data model
-  * Configure Filters: Region, Market, Division
-  * Set Rows to Customer
-
-* **Annual Net Sales Measures**
-
-  * Use `RELATED(dim_date[FY Year])` to enable year-based filtering
-  * Define measures per year, e.g.:
-
-    ```DAX
-    NetSales_2019 := CALCULATE([Net Sales], dim_date[FY Year] = "2019")
-    ```
-  * Format as currency (2 decimals, US \$)
-
-* **Year-over-Year % Change**
-
-  * Create measure:
-
-    ```DAX
-    21vs20 := DIVIDE([NetSales_2021], [NetSales_2020], 0)
-    ```
-  * Format as percentage (1 decimal)
-
-* **Display in Millions**
-
-  * In Value Field Settings for each year measure, use custom format: `0.0,,"M"`
-
-* **Report Beautification**
-
-  * Apply consistent fonts, borders, and slicer styles
-  * Use conditional formatting (highlights, data bars) to emphasize insights
-
-* **Trend Analysis Chart**
-
-  * Click any PivotTable cell and insert a Line Chart (Insert → Charts → Line) to show trends over time
----
-
 ### 📂 Repository Structure
 
 ```
@@ -195,6 +117,83 @@ These parsed tables are loaded and related in Power Pivot to form the data model
     * Click any cell within the PivotTable and insert a Line Chart (Insert → Charts → Line) to represent trend analysis over time.
 
 > **Note:** Row and column names may differ; adjust to align with your mock-up.
+
+---
+### 🔧 Excel Tools & Techniques Used
+
+* **ETL with Power Query**
+
+  * Extract data from `dim_customer.csv`, `dim_market.csv`, `dim_product.csv`, `fact_sales_monthly.csv`
+  * Cleanse data: remove duplicates, empty or invalid values
+  * Transform fields and load parsed tables into the data model (create connections only)
+
+* **Data Collection in Power Pivot**
+
+  * Open Power Pivot → Manage, and import the required fields: Net Sales, Year, Division, Country, Region
+  * Derive missing fields (e.g., Year from date) as needed
+
+* **Field Preparation with Formulas**
+
+  * Year: extract from date column using DAX or Power Query
+  * Division, Country, Region: sourced from `dim_market`
+
+* **Data Model Connection (Star Schema)**
+
+  * In Diagram View, place `fact_sales_monthly` centrally and create relationships:
+
+    * fact\[customer\_code] → dim\_customer\[customer\_code]
+    * fact\[product\_code] → dim\_product\[product\_code]
+    * dim\_customer\[market] → dim\_market\[market]
+
+* **Date Table Creation (dim\_date)**
+
+  * In Power Query, generate date list:
+
+    ```powerquery
+    ={Number.From(#date(2018,1,1))..Number.From(#date(2018,12,31))}
+    ```
+  * Convert to table, set type to Date, then add:
+
+    * `FY Month` = Date.AddMonths(\[Date], 4)
+    * `FY Year` = Date.Year(\[FY Month])
+
+* **PivotTable Setup**
+
+  * Insert a PivotTable from the data model
+  * Configure Filters: Region, Market, Division
+  * Set Rows to Customer
+
+* **Annual Net Sales Measures**
+
+  * Use `RELATED(dim_date[FY Year])` to enable year-based filtering
+  * Define measures per year, e.g.:
+
+    ```DAX
+    NetSales_2019 := CALCULATE([Net Sales], dim_date[FY Year] = "2019")
+    ```
+  * Format as currency (2 decimals, US \$)
+
+* **Year-over-Year % Change**
+
+  * Create measure:
+
+    ```DAX
+    21vs20 := DIVIDE([NetSales_2021], [NetSales_2020], 0)
+    ```
+  * Format as percentage (1 decimal)
+
+* **Display in Millions**
+
+  * In Value Field Settings for each year measure, use custom format: `0.0,,"M"`
+
+* **Report Beautification**
+
+  * Apply consistent fonts, borders, and slicer styles
+  * Use conditional formatting (highlights, data bars) to emphasize insights
+
+* **Trend Analysis Chart**
+
+  * Click any PivotTable cell and insert a Line Chart (Insert → Charts → Line) to show trends over time
 
 ---
 ### Report by:
