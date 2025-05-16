@@ -32,8 +32,8 @@ These parsed tables are loaded and related in Power Pivot to form the data model
 ### 📂 Repository Structure
 
 ```
-├── Customer_Performance_Report.xlsx   # Main report file
-├── india_sales.pdf                    # PDF export of the report
+├── Final Report.xlsx   # Main report file
+├── Report PDF.pdf                    # PDF export of the report
 ├── Insights.pptx                      # Key insights of the report
 ├── data/                              # Source tables in CSV format in a zip file
 │   ├── dim_customer.csv
