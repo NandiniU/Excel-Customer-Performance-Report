@@ -18,14 +18,14 @@ By distilling complex sales data into clear, interactive views, this report empo
 
 The **Customer Performance Report** is an interactive Excel report built to give AtliQ’s leadership team deep insights into customer behavior, revenue trends, and engagement metrics. It combines robust data modeling with professional formatting to spotlight key areas of performance.
 
-A PDF export (`india_sales.pdf`) is provided alongside the Excel workbook to review the static version of the report. The report itself is driven by four core tables parsed from the source files:
+A PDF export (`Report PDF.pdf`) is provided alongside the Excel workbook to review the static version of the report. The report itself is driven by four core tables parsed from the source files:
 
 * **dim\_customer.csv**: Customer master data including fields product_code,	customer_code,	Qty &	net_sales_amount
 * **dim\_market.csv**: Geographic and market segmentation details
 * **dim\_product.csv**: Product hierarchy and categories
 * **fact\_sales\_monthly.csv**: Monthly sales transactions and revenue metrics
 
-These parsed tables are loaded and related in Power Pivot to form the data model used by the final report (`Customer_Performance_Report.xlsx`).
+These parsed tables are loaded and related in Power Pivot to form the data model used by the final report (`Final Report.xlsx`).
 
 ---
 
