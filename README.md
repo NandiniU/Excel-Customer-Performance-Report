@@ -116,8 +116,13 @@ These parsed tables are loaded and related in Power Pivot to form the data model
 
     * Click any cell within the PivotTable and insert a Line Chart (Insert → Charts → Line) to represent trend analysis over time.
 
-> **Note:** Row and column names may differ; adjust to align with your mock-up.
 
+> **Note:**
+> 
+> -   Ensure all files reside in the same folder; changing any file path may cause connection errors.
+>     
+> -   File names may differ based on your environment—update connections accordingly.
+>
 ---
 ### 🔧 Excel Tools & Techniques Used
 
